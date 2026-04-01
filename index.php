@@ -1,7 +1,8 @@
 <?php
+$pdo = NEW PDO('mysql:host=localhost;dbname=api', 'root', '');
+
 //http://api.blog.ru/posts.php
 // die($_GET['q']);
-require 'connectDB.php';
 require 'functions.php';
 header('Content-Type: application/json');
 
@@ -23,7 +24,9 @@ if ($type === 'posts') {
 }
         break;
     case 'POST':
-echo "ppppppp"; 
+        if ($type === 'posts') {
+addPost($pdo, $_POST); 
+        }
         break;
     case 'PATCH':
         if ($type === 'posts') {

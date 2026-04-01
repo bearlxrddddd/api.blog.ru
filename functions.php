@@ -16,7 +16,7 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 echo json_encode($posts);
 }
 
-function getPost($pdo, $id): void{
+function getPost($pdo, $id) {
 $sql = "SELECT * FROM `posts` WHERE id = :id";
 $stmt = $pdo->prepare($sql);
 $stmt->execute(['id' => $id]);
@@ -36,17 +36,16 @@ echo json_encode($response);
 }
 
 function addPost($pdo, $data){
-$pdo = new PDO('mysql:host=localhost;dbname=api', "root", "");
 $sql = "INSERT INTO`posts`( `title`, `body`) VALUES (:title, :body)";
 $stmt = $pdo -> prepare($sql);
 $stmt -> execute($data);
     http_response_code(201);
     $response = [
-        'status' => false,
-        'message' => 'post not found'
+        'status' => true,
+        'post_id' => $pdo -> lastInsertId()
     ]; 
 echo json_encode($response);
-}
+
 }
 
 function updatePost($pdo, $id, $data){
