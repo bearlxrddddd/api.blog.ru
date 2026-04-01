@@ -1,4 +1,6 @@
 <?php
+//updatePost, delete
+
 $data = [
 'title' => $_POST['title'],
 'body' => $_POST['body']
@@ -37,6 +39,36 @@ function addPost($pdo, $data){
 $pdo = new PDO('mysql:host=localhost;dbname=api', "root", "");
 $sql = "INSERT INTO`posts`( `title`, `body`) VALUES (:title, :body)";
 $stmt = $pdo -> prepare($sql);
-$result = $stmt -> execute($data);
-header("Location: ./index.php");
+$stmt -> execute($data);
+    http_response_code(201);
+    $response = [
+        'status' => false,
+        'message' => 'post not found'
+    ]; 
+echo json_encode($response);
+}
+}
+
+function updatePost($pdo, $id, $data){
+$sql = "UPDATE `posts` SET title = :title, body=:body WHERE id = :id";
+$stmt = $pdo -> prepare($sql);
+$stmt->execute(['title' => $data['title'], 'body' => $data['body'], 'id' => $id]);
+http_response_code(200);
+$res = [
+        'status' => true,
+        'message' => 'update'
+    ]; 
+echo json_encode($res);
+}
+
+function deletePost($pdo, $id){
+    $sql = 'DELETE FROM `posts` WHERE id = :id';
+    $stmt = $pdo -> prepare($sql);
+    $stmt -> execute(['id' => $id]);
+    http_response_code(200);
+$res = [
+        'status' => true,
+        'message' => 'deleted'
+    ]; 
+echo json_encode($res);
 }

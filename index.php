@@ -25,5 +25,23 @@ if ($type === 'posts') {
     case 'POST':
 echo "ppppppp"; 
         break;
+    case 'PATCH':
+        if ($type === 'posts') {
+            
+        
+        if (isset($id)) {
+            $data = file_get_contents('php://input' );
+        $data = json_decode($data, true);
+        updatePost($pdo, $id, $data);
+            }
 }
-?>
+break;
+case 'DELETE':
+    if ($type === 'posts') {
+        if (isset($id)) {
+            deletePost($pdo, $id);
+
+            break;
+        }
+    }
+}
